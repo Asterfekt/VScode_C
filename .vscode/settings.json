@@ -37,6 +37,8 @@
   "files.associations": {
     "stdlib.h": "c",
     "string.h": "c",
-    "stdio.h": "c"
+    "stdio.h": "c",
+    "libnick.h": "c",
+    "windows.h": "c"
   }
 }

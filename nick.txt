@@ -1,0 +1,4 @@
+gregor 12
+Mateusz 5
+Dorota 3
+Dedek 1
