@@ -1,4 +1,6 @@
 gregor 12
 Mateusz 5
 Dorota 3
+MATEUSZ 3
+`­ 3
 Dedek 1

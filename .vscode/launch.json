@@ -36,7 +36,7 @@
       "cwd": "c:/Users/mateu/Desktop/VScode_C",
       "program": "c:/Users/mateu/Desktop/VScode_C/build/Debug/outDebug",
       "MIMode": "gdb",
-      "miDebuggerPath": "gdb",
+      "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe",
       "setupCommands": [
         {
           "description": "Enable pretty-printing for gdb",
