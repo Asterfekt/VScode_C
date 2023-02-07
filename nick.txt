@@ -1,6 +1,5 @@
-gregor 12
-Mateusz 5
-Dorota 3
-MATEUSZ 3
-`­ 3
-Dedek 1
+marek 921
+harek 122
+kidek 22
+darek 19
+Koks 6
