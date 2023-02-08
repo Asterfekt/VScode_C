@@ -2,20 +2,20 @@
 #include <stdlib.h> // malloc
 #include <string.h> // strcpy,strlen
 #include "inc/libfunc.h"
-#include "inc/libstruct.h"
 #include <windows.h> //Sleep
 #define LEN 100
 
-#define MAX_LEN 100
-struct NickValue {
-  char nickname[100];
-  int value;
+struct NickValue
+{
+    char *nickname;
+    int value;
 };
 
-int compare(const void *a, const void *b) {
-  struct NickValue *x = (struct NickValue *)a;
-  struct NickValue *y = (struct NickValue *)b;
-  return y->value - x->value;
+int compare(const void *a, const void *b)
+{
+    struct NickValue *x = (struct NickValue *)a;
+    struct NickValue *y = (struct NickValue *)b;
+    return y->value - x->value;
 }
 int main()
 
@@ -28,39 +28,42 @@ int main()
     int i, j = 0;
     int Gx, Gy;
     int wybor = 0;
-    struct Player Nick;
+    struct NickValue Nick;
     FILE *f;
     Nick.nickname = getNick();
-    Nick.points = 0; // Początkowa wartość punktów
+    Nick.value = 0; // Początkowa wartość punktów
 
     while (wybor != 4)
     {
-        life = 3; // 3 seruszka za każdmy razem
-        ///////////////////////
+        if (wybor == 1)
+        {
+            Nick.nickname = getNick();
+            Nick.value = 0; // Początkowa wartość punktów
+        }
+        else
+        life = 3; // 3 serduszka
         system("cls");
         loading();
         system("cls");
-        ///////////////////////
-        printf("Gracz: %s Punkty: %d \n", Nick.nickname, Nick.points);
-
+        printf("Gracz: %s Punkty: %d \n", Nick.nickname, Nick.value);
         printf(" \n ");
-
         printf("[1] START \n ");
         printf("[2] Tablica Wynikow \n ");
         printf("[3] Version \n ");
         printf("[4] Wyjscie \n ");
         printf(" \n ");
         scanf("%d", &wybor);
-
         switch (wybor)
         {
-        case 1:
+        case 1: /* Start  GRY*/
+
             printf("Wybierz poziom: \n ");
             printf("[1] Latwy 3x3\n ");
             printf("[2] Sredni 4x4 \n ");
             printf("[3] Trudny 5x5\n ");
             printf("[4] Wlasny \n ");
             scanf("%d", &level);
+
             if (level == 1)
             {
                 x = 3;
@@ -84,12 +87,11 @@ int main()
                 scanf("%d", &y);
                 printf(" \n");
             }
-
             while (life != 0)
             {
                 int Rx = rand() % x;
                 int Ry = rand() % y;
-                printf("Gracz: %s Punkty: %d \n", Nick.nickname, Nick.points);
+                printf("Gracz: %s Punkty: %d \n", Nick.nickname, Nick.value);
                 probability(x, y);
                 printf(" \n");
                 printf("Masz %d serca \n ", life);
@@ -105,9 +107,7 @@ int main()
                 scanf("%d", &Gy);
                 printf("Wybrales : [%d,%d] \n", Gx, Gy);
                 printf(" \n ");
-
                 Sleep(100);
-
                 for (i = 0; i < x; i++)
                 {
                     for (j = 0; j < y; j++)
@@ -146,14 +146,14 @@ int main()
                     printf("Wygrales\n");
                     if (life == 3)
                     {
-                        Nick.points += 3;
+                        Nick.value += 3;
                     }
                     else if (life == 2)
                     {
-                        Nick.points += 2;
+                        Nick.value += 2;
                     }
                     else
-                        Nick.points += 1;
+                        Nick.value += 1;
 
                     life += 1;
                 }
@@ -164,76 +164,85 @@ int main()
                 system("cls");
             }
             Sleep(1000);
-              f = fopen("nick.txt", "a");
-    if (f == NULL)
-    {
-        printf("Nie udalo się otworzyc pliku.\n");
-        exit(1);
-    }
 
-    fprintf(f, "%s %d\n", Nick.nickname, Nick.points);
-    fclose(f);
- 
+            /* Zapisanie wyniku do pliku  */
 
-    free(Nick.nickname); 
+            f = fopen("nick.txt", "a");
+            if (f == NULL)
+            {
+                printf("Nie udalo się otworzyc pliku.\n");
+                exit(1);
+            }
+
+            fprintf(f, "%s %d\n", Nick.nickname, Nick.value);
+            fclose(f);
+
+            free(Nick.nickname);
+
             break;
 
-        case 2:
+        case 2: /* Tabela wyników     */
+
             f = fopen("nick.txt", "r");
             if (f == NULL)
             {
                 printf("Nie udało się otworzyć pliku.\n");
                 exit(1);
             }
+
             char nickname[100];
             int value;
+
             while (fscanf(f, "\t\t %s %d", nickname, &value) == 2)
             {
                 printf("%s %d\n", nickname, value);
             }
-            Sleep(3000);
+
+            Sleep(2000);
             fclose(f);
             break;
 
-        case 3:
+        case 3: /* Version  */
             printf("Version 1.0 Autor M.Krzysciak \n");
             Sleep(3000);
             break;
-        default:
-            printf("Dziekuje %s uzyskales %d punktow zapraszam ponownie", Nick.nickname, Nick.points);
-             Sleep(3000);
+
+        default: /* Koniec  */
+            printf("Dziekuje %s uzyskales %d punktow zapraszam ponownie", Nick.nickname, Nick.value);
+            Sleep(2000);
             break;
         }
     }
-    
-f = fopen("nick.txt", "r");
-  if (f == NULL) {
-    printf("Nie udało się otworzyć pliku.\n");
-    exit(1);
-  }
 
-  struct NickValue nicks[MAX_LEN];
-  int n = 0;
+    /*Otwarcie pliku */
+    f = fopen("nick.txt", "r");
+    if (f == NULL)
+    {
+        printf("Nie udalo się otworzyc pliku.\n");
+        exit(1);
+    }
+    struct NickValue nicks[LEN];
+    int n = 0;
+    while (fscanf(f, "%s %d", nicks[n].nickname, &nicks[n].value) == 2)
+    {
+        n++;
+    }
+    fclose(f);
 
-  while (fscanf(f, "%s %d", nicks[n].nickname, &nicks[n].value) == 2) {
-    n++;
-  }
+    /*Sortowanie*/
+    qsort(nicks, n, sizeof(struct NickValue), compare);
+    f = fopen("nick.txt", "w");
+    if (f == NULL)
+    {
+        printf("Nie udalo się otworzyc pliku.\n");
+        exit(1);
+    }
+    int k;
+    for (k = 0; k < n; k++)
+    {
+        fprintf(f, "%s %d\n", nicks[k].nickname, nicks[k].value);
+    }
+    fclose(f);
 
-  fclose(f);
-
-  qsort(nicks, n, sizeof(struct NickValue), compare);
-
-  f = fopen("nick.txt", "w");
-  if (f == NULL) {
-    printf("Nie udało się otworzyć pliku.\n");
-    exit(1);
-  }
-
-  int k;
-  for (k = 0; k < n; k++) {
-    fprintf(f, "%s %d\n", nicks[k].nickname, nicks[k].value);
-  }
-
-  fclose(f);
-  return 0;
+    return 0;
 }
