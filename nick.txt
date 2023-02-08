@@ -1,10 +1,10 @@
+koks 8
+koaaks 8
 Kokas 6
-Koks 6
-Koks 6
-Koksss 6
-Kokas 3
-Koktek 3
+Koktek 5
+Koks 3
 Kokss 2
-koaaks 0
-
-koks 2
+Koks 2
+Kokas 2
+Koksss 1
+koke 0

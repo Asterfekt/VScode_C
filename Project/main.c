@@ -8,6 +8,7 @@
 struct NickValue
 {
     char *nickname;
+    char name[LEN];
     int value;
 };
 
@@ -41,7 +42,7 @@ int main()
             Nick.value = 0; // Początkowa wartość punktów
         }
         else
-        life = 3; // 3 serduszka
+            life = 3; // 3 serduszka
         system("cls");
         loading();
         system("cls");
@@ -223,7 +224,7 @@ int main()
     }
     struct NickValue nicks[LEN];
     int n = 0;
-    while (fscanf(f, "%s %d", nicks[n].nickname, &nicks[n].value) == 2)
+    while (fscanf(f, "%s %d", nicks[n].name, &nicks[n].value) == 2)
     {
         n++;
     }
@@ -240,7 +241,7 @@ int main()
     int k;
     for (k = 0; k < n; k++)
     {
-        fprintf(f, "%s %d\n", nicks[k].nickname, nicks[k].value);
+        fprintf(f, "%s %d\n", nicks[k].name, nicks[k].value);
     }
     fclose(f);
 
